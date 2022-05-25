@@ -76,6 +76,31 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/person/{firstName}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Find a registered Person",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "first name",
+                        "name": "firstName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.Person"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

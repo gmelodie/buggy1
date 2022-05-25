@@ -55,6 +55,22 @@ paths:
           schema:
             $ref: '#/definitions/main.Person'
       summary: Create a new Person
+  /person/{firstName}:
+    get:
+      parameters:
+      - description: first name
+        in: query
+        name: firstName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Person'
+      summary: Find a registered Person
 schemes:
 - http
 swagger: "2.0"
