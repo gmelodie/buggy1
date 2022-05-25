@@ -1,0 +1,60 @@
+basePath: /
+definitions:
+  main.Person:
+    properties:
+      age:
+        type: integer
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: People API
+  version: "2.0"
+paths:
+  /:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: API greeting message
+  /person:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: first name
+        in: body
+        name: firstName
+        required: true
+        schema:
+          type: string
+      - description: last name
+        in: body
+        name: lastName
+        required: true
+        schema:
+          type: string
+      - description: age
+        in: body
+        name: age
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            $ref: '#/definitions/main.Person'
+      summary: Create a new Person
+schemes:
+- http
+swagger: "2.0"
