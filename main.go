@@ -76,6 +76,35 @@ func (a *API) handlePersonGet(c echo.Context) error {
 	return c.JSON(http.StatusCreated, person)
 }
 
+// handlePersonUpdate godoc
+// @Summary  Update a registered Person
+// @Produce  json
+// @Param    firstName  query     string  true  "original first name"
+// @Param    firstName  body      string  true  "new first name"
+// @Param    lastName   body      string  true  "new last name"
+// @Param    age        body      int     true  "new age"
+// @Success  200        {object}  Person
+// @Router   /person/{firstName} [put]
+func (a *API) handlePersonUpdate(c echo.Context) error {
+	origFirstName := c.Param("firstName")
+
+	updatedPerson := new(Person)
+	err := json.NewDecoder(c.Request().Body).Decode(&updatedPerson)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	err = a.DB.Model(&Person{}).
+		Where("first_name = ?", origFirstName).
+		Updates(*updatedPerson).
+		Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, err)
+	}
+
+	return c.JSON(http.StatusOK, updatedPerson)
+}
+
 func createDatabase() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open("people.db"), &gorm.Config{})
 	if err != nil {
@@ -106,6 +135,7 @@ func main() {
 	e.GET("/", api.handleIndex)
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
+	e.PUT("/person/:firstName", api.handlePersonUpdate)
 	e.POST("/person", api.handlePersonCreate)
 	e.GET("/person/:firstName", api.handlePersonGet)
 
