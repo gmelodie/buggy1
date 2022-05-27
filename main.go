@@ -105,6 +105,24 @@ func (a *API) handlePersonUpdate(c echo.Context) error {
 	return c.JSON(http.StatusOK, updatedPerson)
 }
 
+// handlePersonDelete godoc
+// @Summary  Delete a registered Person
+// @Produce  json
+// @Param    firstName  query     string  true  "first name"
+// @Success  200 "deleted successfully"
+// @Success  404 "entry to delete not found"
+// @Router   /person/{firstName} [delete]
+func (a *API) handlePersonDelete(c echo.Context) error {
+	firstName := c.Param("firstName")
+
+	err := a.DB.Where("first_name = ?", firstName).Delete(&Person{}).Error
+	if err != nil {
+		return c.JSON(http.StatusNotFound, err)
+	}
+
+	return c.NoContent(http.StatusOK)
+}
+
 func createDatabase() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open("people.db"), &gorm.Config{})
 	if err != nil {
@@ -135,6 +153,7 @@ func main() {
 	e.GET("/", api.handleIndex)
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
+	e.DELETE("/person/:firstName", api.handlePersonDelete)
 	e.PUT("/person/:firstName", api.handlePersonUpdate)
 	e.POST("/person", api.handlePersonCreate)
 	e.GET("/person/:firstName", api.handlePersonGet)

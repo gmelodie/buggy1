@@ -56,6 +56,21 @@ paths:
             $ref: '#/definitions/main.Person'
       summary: Create a new Person
   /person/{firstName}:
+    delete:
+      parameters:
+      - description: first name
+        in: query
+        name: firstName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: deleted successfully
+        "404":
+          description: entry to delete not found
+      summary: Delete a registered Person
     get:
       parameters:
       - description: first name

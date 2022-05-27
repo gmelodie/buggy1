@@ -150,6 +150,29 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a registered Person",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "first name",
+                        "name": "firstName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "deleted successfully"
+                    },
+                    "404": {
+                        "description": "entry to delete not found"
+                    }
+                }
             }
         }
     },
