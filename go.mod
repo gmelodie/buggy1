@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/ipfs/go-log/v2 v2.5.1
-	github.com/labstack/echo/v4 v4.7.2
+	github.com/labstack/echo/v4 v4.9.0
 	github.com/swaggo/echo-swagger v1.3.2
 	github.com/swaggo/swag v1.8.2
 	gorm.io/driver/sqlite v1.3.2
